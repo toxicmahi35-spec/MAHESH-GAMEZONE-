@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahesh Gamezone</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#080812;color:#fff;min-height:100vh}
+header{padding:28px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #24243a;background:#0d0d1b;position:sticky;top:0;z-index:5}
+.logo{font-size:25px;font-weight:900;letter-spacing:1px}.logo span{color:#9b5cff}
+nav a{color:#ddd;text-decoration:none;margin-left:22px}
+.hero{padding:70px 6% 45px;text-align:center;background:radial-gradient(circle at center,#24134b 0,#080812 55%)}
+.hero h1{font-size:clamp(38px,8vw,75px);font-weight:900}.hero h1 span{color:#9b5cff}
+.hero p{color:#aaa;margin:18px auto 28px;max-width:600px;font-size:17px}
+.search{width:min(600px,90%);padding:16px 20px;border-radius:30px;border:1px solid #343451;background:#121225;color:white;outline:none}
+section{padding:35px 6%}.title{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.title h2{font-size:28px}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.card{background:#121225;border:1px solid #282842;border-radius:18px;padding:22px;transition:.25s}
+.card:hover{transform:translateY(-6px);border-color:#9b5cff}
+.icon{height:125px;border-radius:13px;display:grid;place-items:center;font-size:55px;background:linear-gradient(135deg,#191933,#29204a);margin-bottom:17px}
+.card h3{margin-bottom:7px}.card p{color:#999;font-size:14px;margin-bottom:16px}
+button{width:100%;padding:12px;border:0;border-radius:10px;background:#9b5cff;color:#fff;font-weight:bold;cursor:pointer}
+button:hover{background:#7f3fff}
+footer{text-align:center;padding:35px;color:#777;border-top:1px solid #24243a;margin-top:30px}
+.empty{text-align:center;color:#888;padding:30px;display:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">MAHESH <span>GAMEZONE</span></div>
+  <nav><a href="#games">Games</a><a href="#about">About</a></nav>
+</header>
+
+<main>
+<section class="hero">
+  <h1>MAHESH <span>GAMEZONE</span></h1>
+  <p>Play fun browser games for free. No downloads needed. Pick a game and start playing!</p>
+  <input id="search" class="search" type="search" placeholder="🔎 Search games...">
+</section>
+
+<section id="games">
+  <div class="title"><h2>🎮 Games</h2><span id="count"></span></div>
+  <div class="games" id="gameGrid"></div>
+  <div class="empty" id="empty">No games found.</div>
+</section>
+
+<section id="about">
+  <div class="title"><h2>🔥 About Mahesh Gamezone</h2></div>
+  <p style="color:#aaa;line-height:1.7;max-width:700px">
+    Mahesh Gamezone is a simple gaming hub where visitors can play browser games.
+    This starter version includes playable mini-games and is ready to be expanded with
+    properly licensed or original games.
+  </p>
+</section>
+</main>
+
+<footer>© 2026 Mahesh Gamezone • Play. Have Fun. 🎮</footer>
+
+<script>
+const games=[
+ {name:"Click Challenge",emoji:"⚡",desc:"Test how fast you can click!",action:startClick},
+ {name:"Number Guess",emoji:"🔢",desc:"Guess the secret number.",action:startGuess},
+ {name:"Rock Paper Scissors",emoji:"✊",desc:"Beat the computer!",action:startRPS},
+ {name:"Memory Match",emoji:"🧠",desc:"Match the hidden pairs.",action:startMemory}
+];
+
+const grid=document.getElementById("gameGrid"), search=document.getElementById("search"), empty=document.getElementById("empty"), count=document.getElementById("count");
+function render(){
+ const q=search.value.toLowerCase();
+ const list=games.filter(g=>g.name.toLowerCase().includes(q));
+ grid.innerHTML=list.map((g,i)=>`<article class="card"><div class="icon">${g.emoji}</div><h3>${g.name}</h3><p>${g.desc}</p><button onclick="games[${games.indexOf(g)}].action()">▶ PLAY NOW</button></article>`).join("");
+ empty.style.display=list.length?"none":"block"; count.textContent=list.length+" games";
+}
+search.addEventListener("input",render); render();
+
+function startClick(){
+ let score=0, seconds=10;
+ alert("Click Challenge: You have 10 seconds. Click OK, then use the button as fast as possible!");
+ const w=window.open("","game","width=420,height=320");
+ if(!w)return;
+ w.document.write(`<body style="font-family:Arial;text-align:center;background:#0b0b16;color:white;padding:35px"><h1>⚡ Click Challenge</h1><h2 id="t">10</h2><button id="b" style="font-size:25px;padding:20px">CLICK!</button><h2>Score: <span id="s">0</span></h2><script>let s=0,t=10; b.onclick=()=>{if(t>0){s++;document.getElementById('s').textContent=s}};let x=setInterval(()=>{t--;document.getElementById('t').textContent=t;if(t<=0){clearInterval(x);b.disabled=true;alert('Your score: '+s)}},1000)<\/script>`);
+}
+function startGuess(){
+ const secret=Math.floor(Math.random()*20)+1;
+ let tries=0;
+ const w=window.open("","game","width=420,height=300");
+ if(!w)return;
+ w.document.write(`<body style="font-family:Arial;text-align:center;background:#0b0b16;color:white;padding:35px"><h1>🔢 Number Guess</h1><p>Guess a number from 1 to 20</p><input id="n" type="number"><button onclick="go()">GUESS</button><p id="m"></p><script>let tries=0;function go(){let n=+document.getElementById('n').value;tries++;let m=document.getElementById('m');if(n===${secret})m.textContent='🎉 Correct! Tries: '+tries;else m.textContent=n<${secret}?'⬆️ Higher!':'⬇️ Lower!'}<\/script>`);
+}
+function startRPS(){
+ const choices=["Rock","Paper","Scissors"];
+ const w=window.open("","game","width=420,height=350");
+ if(!w)return;
+ w.document.write(`<body style="font-family:Arial;text-align:center;background:#0b0b16;color:white;padding:30px"><h1>✊ Rock Paper Scissors</h1><button onclick="play('Rock')">✊ Rock</button><br><br><button onclick="play('Paper')">✋ Paper</button><br><br><button onclick="play('Scissors')">✌️ Scissors</button><h3 id="r"></h3><script>function play(x){let a=['Rock','Paper','Scissors'];let c=a[Math.floor(Math.random()*3)],r=x===c?'Draw!':((x==='Rock'&&c==='Scissors')||(x==='Paper'&&c==='Rock')||(x==='Scissors'&&c==='Paper'))?'You win!':'Computer wins!';document.getElementById('r').textContent='Computer: '+c+' — '+r}<\/script>`);
+}
+function startMemory(){
+ const emojis=["🍎","🍌","🍇","🍉","🍎","🍌","🍇","🍉"].sort(()=>Math.random()-.5);
+ const w=window.open("","game","width=420,height=430");
+ if(!w)return;
+ w.document.write(`<body style="font-family:Arial;text-align:center;background:#0b0b16;color:white;padding:20px"><h1>🧠 Memory Match</h1><p>Find all matching pairs.</p><div id="g" style="display:grid;grid-template-columns:repeat(4,70px);gap:10px;justify-content:center"></div><script>let a=${JSON.stringify(emojis)},first=null,lock=false,matched=0;g.innerHTML=a.map((_,i)=>'<button id="c'+i+'" style="height:70px;font-size:30px;background:#29204a;color:white;border:0;border-radius:8px">?</button>').join('');a.forEach((e,i)=>c(i));function c(i){document.getElementById('c'+i).onclick=()=>{if(lock||document.getElementById('c'+i).textContent!=='?')return;document.getElementById('c'+i).textContent=e;if(first===null){first=i}else{lock=true;if(a[first]===a[i]){matched+=2;lock=false;first=null;if(matched===a.length)alert('🎉 You won!')}else setTimeout(()=>{document.getElementById('c'+first).textContent='?';document.getElementById('c'+i).textContent='?';first=null;lock=false},700)}}}<\/script>`);
+}
+</script>
+</body>
+</html>
