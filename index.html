@@ -1,13 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mahesh Gamezone</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahesh Gamezone</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0b0b12;
+  color: white;
+}
+
+header {
+  padding: 25px 18px;
+  text-align: center;
+  background: linear-gradient(135deg, #17172b, #10101a);
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #7c5cff;
+}
+
+.subtitle {
+  margin-top: 8px;
+  color: #aaa;
+}
+
+.search {
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.search input {
+  width: 100%;
+  padding: 15px;
+  border-radius: 30px;
+  border: 1px solid #33334d;
+  background: #171724;
+  color: white;
+  font-size: 15px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+h2 {
+  margin: 20px 0 15px;
+}
+
+.categories {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.category {
+  background: #191927;
+  border: 1px solid #30304a;
+  padding: 10px 16px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.games {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.game {
+  background: #151520;
+  border: 1px solid #29293d;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.game-image {
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  background: linear-gradient(135deg, #27274a, #17172a);
+}
+
+.game-info {
+  padding: 14px;
+}
+
+.game h3 {
+  margin-bottom: 7px;
+}
+
+.game p {
+  color: #999;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.play {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #7c5cff;
+  color: white;
+  font-weight: bold;
+}
+
+footer {
+  text-align: center;
+  padding: 35px 15px;
+  margin-top: 30px;
+  color: #777;
+}
+</style>
 </head>
-<body style="text-align: center; font-family: sans-serif; background-color: #121212; color: white; padding-top: 50px;">
-    <h1>Welcome to Mahesh Gamezone! 🎮</h1>
-    <p>Your site is working successfully!</p>
+
+<body>
+
+<header>
+  <div class="logo">🎮 Mahesh <span>Gamezone</span></div>
+  <div class="subtitle">Play Free Games Online</div>
+
+  <div class="search">
+    <input type="text" placeholder="🔎 Search games...">
+  </div>
+</header>
+
+<div class="container">
+
+<h2>🎯 Categories</h2>
+
+<div class="categories">
+  <div class="category">🔥 Popular</div>
+  <div class="category">🏎️ Racing</div>
+  <div class="category">🧩 Puzzle</div>
+  <div class="category">⚔️ Action</div>
+  <div class="category">⚽ Sports</div>
+</div>
+
+<h2>🎮 Popular Games</h2>
+
+<div class="games">
+
+<div class="game">
+  <div class="game-image">🏎️</div>
+  <div class="game-info">
+    <h3>Speed Racer</h3>
+    <p>Racing Game</p>
+    <button class="play">PLAY NOW</button>
+  </div>
+</div>
+
+<div class="game">
+  <div class="game-image">🧩</div>
+  <div class="game-info">
+    <h3>Brain Puzzle</h3>
+    <p>Puzzle Game</p>
+    <button class="play">PLAY NOW</button>
+  </div>
+</div>
+
+<div class="game">
+  <div class="game-image">⚔️</div>
+  <div class="game-info">
+    <h3>Battle Arena</h3>
+    <p>Action Game</p>
+    <button class="play">PLAY NOW</button>
+  </div>
+</div>
+
+<div class="game">
+  <div class="game-image">⚽</div>
+  <div class="game-info">
+    <h3>Football Star</h3>
+    <p>Sports Game</p>
+    <button class="play">PLAY NOW</button>
+  </div>
+</div>
+
+</div>
+</div>
+
+<footer>
+© 2026 Mahesh Gamezone • Free Games Online
+</footer>
+
 </body>
 </html>
-
