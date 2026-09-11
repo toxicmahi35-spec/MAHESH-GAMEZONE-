@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speed Racer - Mahesh Gamezone</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#090a10;
+  color:white;
+  font-family:Arial,sans-serif;
+  text-align:center;
+}
+h1{margin:15px 0 5px}
+p{color:#aaa;margin:5px 0 15px}
+
+#game{
+  position:relative;
+  width:330px;
+  height:560px;
+  max-width:94vw;
+  margin:auto;
+  overflow:hidden;
+  background:#333;
+  border-left:8px solid #eee;
+  border-right:8px solid #eee;
+}
+
+.road-line{
+  position:absolute;
+  width:8px;
+  height:70px;
+  background:white;
+  left:50%;
+  transform:translateX(-50%);
+  opacity:.8;
+}
+
+.car{
+  position:absolute;
+  width:48px;
+  height:80px;
+  border-radius:12px;
+  background:#ff3155;
+  bottom:25px;
+  left:141px;
+  box-shadow:0 5px 15px #000;
+}
+
+.car:before,.car:after{
+  content:"";
+  position:absolute;
+  width:8px;
+  height:20px;
+  background:#111;
+  border-radius:4px;
+  top:12px;
+}
+.car:before{left:-7px}
+.car:after{right:-7px}
+
+.enemy{
+  position:absolute;
+  width:48px;
+  height:80px;
+  border-radius:12px;
+  background:#37a9ff;
+  top:-100px;
+  box-shadow:0 5px 15px #000;
+}
+
+#score{
+  font-size:22px;
+  font-weight:bold;
+  margin:12px;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:13px 25px;
+  margin:5px;
+  background:#7650ff;
+  color:white;
+  font-weight:bold;
+  font-size:16px;
+}
+
+button:active{transform:scale(.95)}
+
+#message{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  background:rgba(0,0,0,.75);
+  z-index:10;
+}
+
+#message button{margin-top:15px}
+</style>
+</head>
+
+<body>
+
+<h1>🏎️ Speed Racer</h1>
+<p>Mahesh Gamezone</p>
+
+<div id="score">Score: 0</div>
+
+<div id="game">
+  <div class="car" id="player"></div>
+
+  <div id="message">
+    <h2>🏁 Ready?</h2>
+    <button onclick="startGame()">START GAME</button>
+  </div>
+</div>
+
+<div>
+  <button onclick="moveLeft()">⬅️ LEFT</button>
+  <button onclick="moveRight()">RIGHT ➡️</button>
+</div>
+
+<script>
+const game = document.getElementById("game");
+const player = document.getElementById("player");
+const scoreText = document.getElementById("score");
+const message = document.getElementById("message");
+
+let playerX = 141;
+let score = 0;
+let running = false;
+let enemy;
+let enemyY = -100;
+let speed = 4;
+
+function startGame(){
+  playerX = 141;
+  score = 0;
+  speed = 4;
+  player.style.left = playerX + "px";
+  scoreText.innerText = "Score: 0";
+  message.style.display = "none";
+  running = true;
+
+  if(enemy) enemy.remove();
+
+  enemy = document.createElement("div");
+  enemy.className = "enemy";
+  game.appendChild(enemy);
+
+  enemyY = -100;
+  enemy.style.left = Math.floor(Math.random()*250) + "px";
+
+  requestAnimationFrame(gameLoop);
+}
+
+function moveLeft(){
+  if(!running)return;
+  playerX -= 25;
+  if(playerX < 10) playerX = 10;
+  player.style.left = playerX + "px";
+}
+
+function moveRight(){
+  if(!running)return;
+  playerX += 25;
+  if(playerX > 264) playerX = 264;
+  player.style.left = playerX + "px";
+}
+
+document.addEventListener("keydown",function(e){
+  if(e.key==="ArrowLeft") moveLeft();
+  if(e.key==="ArrowRight") moveRight();
+});
+
+function collision(a,b){
+  const r1=a.getBoundingClientRect();
+  const r2=b.getBoundingClientRect();
+
+  return !(
+    r1.bottom < r2.top ||
+    r1.top > r2.bottom ||
+    r1.right < r2.left ||
+    r1.left > r2.right
+  );
+}
+
+function gameLoop(){
+  if(!running)return;
+
+  enemyY += speed;
+  enemy.style.top = enemyY + "px";
+
+  if(collision(player,enemy)){
+    gameOver();
+    return;
+  }
+
+  if(enemyY > 570){
+    score++;
+    scoreText.innerText = "Score: " + score;
+
+    if(score % 5 === 0) speed += 0.7;
+
+    enemyY = -100;
+    enemy.style.left = Math.floor(Math.random()*250) + "px";
+  }
+
+  requestAnimationFrame(gameLoop);
+}
+
+function gameOver(){
+  running=false;
+  message.innerHTML =
+    "<h2>💥 Game Over!</h2>" +
+    "<p>Your Score: " + score + "</p>" +
+    "<button onclick='startGame()'>PLAY AGAIN</button>";
+  message.style.display="flex";
+}
+</script>
+
+</body>
+</html>
